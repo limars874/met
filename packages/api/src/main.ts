@@ -1,23 +1,23 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-
 import { AppModule } from './app/app.module';
+import { bootstrap } from './base/bootstrap/api-bootstrap';
+import { enableSwagger } from './base/bootstrap/api-swagger';
 
-async function bootstrap() {
-  Logger.log('The Environment is: ' + process.env.NODE_ENV, 'Bootstrap');
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
+async function serve() {
+  const swaggerEnabled =
+    process.env.K_SERVICE == null || process.env.ENABLE_SWAGGER === 'true';
+  await bootstrap(
+    AppModule,
+    swaggerEnabled
+      ? enableSwagger({
+          title: 'Met API',
+          description: 'Met API definitions',
+          version: '1.0.0',
+        })
+      : undefined,
   );
 }
 
-bootstrap();
+serve().catch(e => {
+  console.error(`Process exit with unexpected error: ${e.stack || e}`);
+  setTimeout(() => process.exit(1), 1000);
+});
