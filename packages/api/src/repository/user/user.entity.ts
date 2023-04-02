@@ -1,5 +1,5 @@
 import { Entity, Property, Unique } from '@mikro-orm/core';
-import { BaseEntity } from '../base-entity';
+import { BaseEntity } from '../base.entity';
 import { UserRepository } from './user.repository';
 
 @Entity({

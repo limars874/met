@@ -8,4 +8,4 @@ import { DefaultUserServiceProvider } from './user.service';
   providers: [DefaultUserServiceProvider],
   exports: [DefaultUserServiceProvider],
 })
-export class UsersModule {}
+export class UserModule {}

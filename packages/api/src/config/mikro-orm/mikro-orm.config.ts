@@ -5,6 +5,7 @@ import { Logger } from '@nestjs/common';
 import dotenv from 'dotenv';
 import dotEnvExpand from 'dotenv-expand';
 import path from 'path';
+import { UserEntity } from '../../repository/user/user.entity';
 
 /**
  * This is required to run mikro-orm cli
@@ -26,8 +27,10 @@ logger.log(`Using env ${process.cwd()}/env/.env.${env}\n`);
 const config = {
   dbName: process.env.DB_DATABASE,
   debug: env === 'dev',
-  entities: [`${baseDir}/dist/**/*.entity.js`],
-  entitiesTs: [`${baseDir}/packages/api/src/**/*.entity.ts`],
+  entities: [UserEntity],
+  entitiesTs: [UserEntity],
+  // discovery: { disableDynamicFileAccess: true },
+  // entitiesTs: [`${baseDir}/met/packages/api/src/**/*.entity.ts`],
   host: process.env.DB_HOST,
   schemaGenerator: {
     createForeignKeyConstraints: false, // whether to generate FK constraints

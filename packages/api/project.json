@@ -11,6 +11,7 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
+        "generatePackageJson": true,
         "outputPath": "dist/packages/api",
         "main": "packages/api/src/main.ts",
         "tsConfig": "packages/api/tsconfig.app.json",
@@ -55,6 +56,26 @@
         "ci": {
           "ci": true,
           "codeCoverage": true
+        }
+      }
+    },
+    "ts-node": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "commands": [
+            {
+              "command": "NODE_ENV=development ts-node packages/api/src/main.ts"
+            }
+          ]
+        },
+        "production": {
+          "commands": [
+            {
+              "command": "NODE_ENV=production ts-node packages/api/src/main.ts"
+            }
+          ]
         }
       }
     }
