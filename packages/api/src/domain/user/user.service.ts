@@ -1,13 +1,15 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { Injectable } from '@nestjs/common';
 import { UserEntity } from '../../entity/user/user.entity';
 import { UserRepository } from '../../entity/user/user.repository';
+import { UserNotFoundError, UserService } from './user.interface';
 
-@Injectable()
-export class UserService {
+export class DefaultUserService extends UserService {
   constructor(
-    @InjectRepository(UserEntity) private readonly repo: UserRepository,
-  ) {}
+    @InjectRepository(UserEntity)
+    private readonly repo: UserRepository,
+  ) {
+    super();
+  }
 
   async create(data: {
     username: string;
@@ -20,12 +22,38 @@ export class UserService {
     return user;
   }
 
+  async update(data: {
+    id: string;
+    username?: string;
+    email?: string;
+    avatar?: string;
+    password?: string;
+  }): Promise<void> {
+    await this.repo.update(data as UserEntity);
+  }
+
+  async findOne(id: string): Promise<UserEntity | null> {
+    return await this.repo.findOne({ id });
+  }
+  async findOneOrThrow(id: string): Promise<UserEntity> {
+    const user = await this.repo.findOne({ id });
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+    return user;
+  }
+
   async exists(id: string): Promise<boolean> {
     return !!(await this.repo.findOne({ id }));
   }
 
-  async delete(id: string): Promise<void> {
-    const user = this.repo.getReference(id);
-    await this.repo.removeAndFlush(user);
+  async remove(id: string): Promise<void> {
+    const ref = this.repo.getReference(id);
+    await this.repo.removeAndFlush(ref);
   }
 }
+
+export const DefaultUserServiceProvider = {
+  provide: UserService,
+  useClass: DefaultUserService,
+};
