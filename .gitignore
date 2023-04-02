@@ -41,3 +41,6 @@ Thumbs.db
 # mikro-orm temp
 temp
 packages/api/temp
+
+# env
+env/.env.dev
