@@ -1,7 +1,7 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Test } from '@nestjs/testing';
 import { EnrichMikroOrmModule } from '../../config/mikro-orm/mikro-orm.module';
-import { UserEntity } from '../../entity/user/user.entity';
+import { UserEntity } from '../../repository/user/user.entity';
 import { DefaultUserService } from './user.service';
 
 describe('UserService', () => {

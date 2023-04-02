@@ -1,6 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { UserEntity } from '../../entity/user/user.entity';
-import { UserRepository } from '../../entity/user/user.repository';
+import { UserEntity } from '../../repository/user/user.entity';
+import { UserRepository } from '../../repository/user/user.repository';
 import { UserNotFoundError, UserService } from './user.interface';
 
 export class DefaultUserService extends UserService {

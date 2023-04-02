@@ -1,5 +1,5 @@
 import { NamedError } from '../../base/error/typed-errors';
-import { UserEntity } from '../../entity/user/user.entity';
+import { UserEntity } from '../../repository/user/user.entity';
 
 export class UserNotFoundError extends NamedError {
   constructor(id: string) {
