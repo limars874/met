@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { database } from './database/database.config';
+import { jwt } from './jwt/jwt.config';
 import { validationSchema } from './validate.config';
 
 const env = process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
@@ -10,7 +11,7 @@ const env = process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
   imports: [
     ConfigModule.forRoot({
       envFilePath: [`env/.env.${env}`, `env/.env`],
-      load: [database],
+      load: [database, jwt],
       cache: true,
       isGlobal: true,
       expandVariables: true,
