@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { PassportStrategy } from '@nestjs/passport'
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
 
-import { ExtractJwtFromAuthHeaderWithScheme } from '../jwt.header'
-import { JwtAuthPayload } from '../jwt.payload'
-import { JwtStrategy } from '../jwt.strategy'
-import { JWT_NO_AUTH_NAME } from './jwt-no-auth.constants'
+import { ExtractJwtFromAuthHeaderWithScheme } from '../jwt.header';
+import { JwtAuthPayload } from '../jwt.payload';
+import { JwtStrategy } from '../jwt.strategy';
+import { JWT_NO_AUTH_NAME } from './jwt-no-auth.constants';
 
 @Injectable()
 export class JwtNoAuthStrategy extends PassportStrategy(
@@ -14,13 +14,13 @@ export class JwtNoAuthStrategy extends PassportStrategy(
 ) {
   constructor(private readonly configService: ConfigService) {
     super({
-      secret: configService.get<string>('jwt.authSecret'),
+      secret: configService.get('jwt').secret,
       jwtFromRequest: ExtractJwtFromAuthHeaderWithScheme(),
       skipAuth: true,
-    })
+    });
   }
 
   async validate(payload?: JwtAuthPayload) {
-    return payload ? { id: payload.sub } : null
+    return payload ? { id: payload.sub } : null;
   }
 }

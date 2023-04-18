@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { PassportStrategy } from '@nestjs/passport'
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
 
-import { ExtractJwtFromBodyField } from '../jwt.header'
-import { JwtAuthPayload } from '../jwt.payload'
-import { JwtStrategy } from '../jwt.strategy'
-import { JWT_REFRESH_NAME } from './jwt-refresh.constants'
+import { ExtractJwtFromBodyField } from '../jwt.header';
+import { JwtAuthPayload } from '../jwt.payload';
+import { JwtStrategy } from '../jwt.strategy';
+import { JWT_REFRESH_NAME } from './jwt-refresh.constants';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
@@ -14,12 +14,12 @@ export class JwtRefreshStrategy extends PassportStrategy(
 ) {
   constructor(private readonly configService: ConfigService) {
     super({
-      secret: configService.get<string>('jwt.refreshSecret'),
+      secret: configService.get('jwt').refreshTokenSecret,
       jwtFromRequest: ExtractJwtFromBodyField('refreshToken'),
-    })
+    });
   }
 
   async validate(payload: JwtAuthPayload) {
-    return { id: payload.sub }
+    return { id: payload.sub };
   }
 }
